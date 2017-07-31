@@ -1,0 +1,16 @@
+{
+  "name": "Game",
+  "description": "application created by thinkjs",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node account_server/app.js"
+  },
+  "dependencies": {
+    "express": "^4.15.3",
+    "log4js": "2.2.0",
+    "ws": "3.0",
+    "fibers": "2.0.0",
+    "mysql": "2.13.0",
+    "socket.io": "2.0.3"
+  }
+}
