@@ -1,4 +1,4 @@
-var URL = "http://127.0.0.1:9000";
+var URL = "http://localhost:9000";
 //var URL = "http://120.24.181.145:9000";
 //var URL = "http://120.24.59.70:9000";
 //var URL = "http://192.168.1.168:9000";
