@@ -12,7 +12,7 @@ exports.mysql = function () {
 		HOST: 'localhost',
 		USER: 'root',
 		PSWD: 'root',
-		DB: 'nodejs',
+		DB: 'dizhu',
 		PORT: 3306,
 	}
 };

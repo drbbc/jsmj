@@ -12,7 +12,7 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
-        super.onLoad();
+        // super.onLoad();
         console.log(__filename);
         if(!cc.sys.isNative && cc.sys.isMobile){
             var cvs = this.node.getComponent(cc.Canvas);
