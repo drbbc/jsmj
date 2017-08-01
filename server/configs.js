@@ -28,8 +28,8 @@ exports.account_server = function () {
 		//
 		DEALDER_API_IP: LOCAL_IP,
 		DEALDER_API_PORT: 12581,
-		VERSION: '20161227',
-		APP_WEB: 'http://fir.im/2f17',
+		VERSION: '20170727',
+		APP_WEB: 'http://www.d169.cc/',
 	};
 };
 
@@ -61,10 +61,9 @@ exports.game_server = function () {
 		HALL_PORT: HALL_ROOM_PORT,
 		//与大厅服协商好的通信加密KEY
 		ROOM_PRI_KEY: ROOM_PRI_KEY,
-
 		//暴露给客户端的接口
 		CLIENT_IP: HALL_IP,
-		CLIENT_PORT: 8888,
+		CLIENT_PORT: 8800,
 	};
 };
 

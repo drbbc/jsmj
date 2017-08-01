@@ -47,8 +47,6 @@ CREATE TABLE `t_games` (
 -- ----------------------------
 -- Records of t_games
 -- ----------------------------
-
--- ----------------------------
 -- Table structure for `t_games_archive`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_games_archive`;
@@ -132,7 +130,6 @@ CREATE TABLE `t_rooms` (
 -- ----------------------------
 -- Records of t_rooms
 -- ----------------------------
-
 -- ----------------------------
 -- Table structure for `t_users`
 -- ----------------------------
