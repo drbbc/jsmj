@@ -2,6 +2,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        testName:cc.EditBox,
         // foo: {
         //    default: null,      // The default value will be used only when the component attaching
         //                           to a node for the first time
@@ -13,9 +14,17 @@ cc.Class({
         // },
         // ...
     },
-
+    //游客登录事件
+    onButtonClicked:function(){
+        console.log("clicked:" + this.testName.string);
+        
+    },
     // use this for initialization
     onLoad: function () {
+        
+    },
+    //微信登录按钮事件
+    onWxButtonClicked:function(){
 
     },
 
