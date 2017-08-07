@@ -93,11 +93,12 @@ app.get('/create_user',function(req,res){
 	var name = req.query.name;
 	var coins = 1000;
 	var gems = 21;
+	var gameId = req.query.gameId | "001";
 	console.log(name);
 
 	db.is_user_exist(account,function(ret){
 		if(!ret){
-			db.create_user(account,name,coins,gems,0,null,function(ret){
+			db.create_user(account,name,coins,gems,0,gameId,null,function(ret){
 				if (ret == null) {
 					http.send(res,2,"system error.");
 				}

@@ -12,7 +12,7 @@ cc.Class({
         ip:"",
         sex:0,
         roomData:null,
-        
+        gid:"002",
         oldRoomId:null,
     },
     
@@ -88,7 +88,8 @@ cc.Class({
         var data = {
             account:this.account,
             sign:this.sign,
-            name:name
+            name:name,
+            gameId:this.gid
         };
         cc.vv.http.sendRequest("/create_user",data,onCreate);    
     },

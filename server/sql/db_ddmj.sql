@@ -144,11 +144,15 @@ CREATE TABLE `t_users` (
   `exp` int(11) DEFAULT '0' COMMENT '用户经验',
   `coins` int(11) DEFAULT '0' COMMENT '用户金币',
   `gems` int(11) DEFAULT '0' COMMENT '用户宝石',
+  `gameid` varchar(8) DEFAULT '' COMMENT '游戏ID',
   `roomid` varchar(8) DEFAULT NULL,
   `history` varchar(4096) NOT NULL,
   PRIMARY KEY (`userid`),
   UNIQUE KEY `account` (`account`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS ``
 
 -- ----------------------------
 -- Records of t_users

@@ -327,8 +327,9 @@ exports.get_detail_of_game = function(room_uuid,index,callback){
     });
 }
 
-exports.create_user = function(account,name,coins,gems,sex,headimg,callback){
+exports.create_user = function(account,name,coins,gems,sex,gameId,headimg,callback){
     callback = callback == null? nop:callback;
+
     if(account == null || name == null || coins==null || gems==null){
         callback(false);
         return;
@@ -340,8 +341,8 @@ exports.create_user = function(account,name,coins,gems,sex,headimg,callback){
         headimg = 'null';
     }
     name = crypto.toBase64(name);
-    var sql = 'INSERT INTO t_users(account,name,coins,gems,sex,headimg) VALUES("{0}","{1}",{2},{3},{4},{5})';
-    sql = sql.format(account,name,coins,gems,sex,headimg);
+    var sql = 'INSERT INTO t_users(account,name,coins,gems,sex,headimg,gameid) VALUES("{0}","{1}",{2},{3},{4},{5},{6})';
+    sql = sql.format(account,name,coins,gems,sex,headimg,gameId);
     console.log(sql);
     query(sql, function(err, rows, fields) {
         if (err) {

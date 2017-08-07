@@ -17,7 +17,7 @@ cc.Class({
     //游客登录事件
     onButtonClicked:function(){
         console.log("clicked:" + this.testName.string);
-        
+        cc.vv.userMgr.create(name);
     },
     // use this for initialization
     onLoad: function () {
