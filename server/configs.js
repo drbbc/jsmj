@@ -28,7 +28,7 @@ exports.account_server = function () {
 		//
 		DEALDER_API_IP: LOCAL_IP,
 		DEALDER_API_PORT: 12581,
-		VERSION: '20170727',
+		VERSION: '20161227',
 		APP_WEB: 'http://www.d169.cc/',
 	};
 };

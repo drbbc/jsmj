@@ -114,7 +114,7 @@ cc.Class({
     onLoadComplete:function(){
         this._isLoading = false;
         this._stateStr = "准备登陆";
-        cc.director.loadScene("CreateRole");
+        cc.director.loadScene("createrole");
         cc.loader.onComplete = null;
     },
     
@@ -127,7 +127,7 @@ cc.Class({
             else{
                 cc.vv.SI = ret;
                 if(ret.version != cc.VERSION){
-                    cc.find("Canvas/alert").active = true;
+                    //cc.find("Canvas/alert").active = true;
                 }
                 else{
                     self.startPreloading();

@@ -162,11 +162,11 @@ function update(){
 			}
 		});
 
-		var mem = process.memoryUsage();
-		var format = function(bytes) {  
-              return (bytes/1024/1024).toFixed(2)+'MB';  
-        }; 
-		//console.log('Process: heapTotal '+format(mem.heapTotal) + ' heapUsed ' + format(mem.heapUsed) + ' rss ' + format(mem.rss));
+		// var mem = process.memoryUsage();
+		// var format = function(bytes) {  
+        //       return (bytes/1024/1024).toFixed(2)+'MB';  
+        // }; 
+		// console.log('Process: heapTotal '+format(mem.heapTotal) + ' heapUsed ' + format(mem.heapUsed) + ' rss ' + format(mem.rss));
 	}
 }
 
@@ -182,7 +182,7 @@ exports.start = function($config){
 		load:roomMgr.getTotalRooms(),
 	};
 
-	setInterval(update,1000);
+	setInterval(update,5000);
 	app.listen(config.HTTP_PORT,config.FOR_HALL_IP);
 	console.log("game server is listening on " + config.FOR_HALL_IP + ":" + config.HTTP_PORT);
 };
