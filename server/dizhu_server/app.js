@@ -1,5 +1,5 @@
-var http_service = require("./http_service");
-var socket_service = require("./socket_service");
+var http_service = require("./dz_http_service");
+var socket_service = require("./dz_socket_service");
 
 //从配置文件获取服务器信息
 var configs = require(process.argv[2]);

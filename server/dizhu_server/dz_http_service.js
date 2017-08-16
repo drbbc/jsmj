@@ -2,6 +2,9 @@ var crypto = require('../utils/crypto');
 var express = require('express');
 var db = require('../utils/db');
 var http = require('../utils/http');
+var roomMgr = require("./dz_roommgr");
+var userMgr = require("./dz_usermgr");
+var tokenMgr = require("./dz_tokenmgr");
 
 var app = express();
 var config = null;
@@ -15,13 +18,74 @@ app.all('*', function(req, res, next) {
 	res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
 	res.header("X-Powered-By",' 3.2.1');
 	res.header("Content-Type", "application/json;charset=utf-8");
+	console.log(__filename+"-->"+req.path);
 	next();
 });
 
 app.get('/create_room',function(req,res){
-	var uid = req.query.uid;
-	console.log('create_room--uid:'+uid);
-	http.send(res,0,"ok");
+	var userId = parseInt(req.query.userid);
+	var sign = req.query.sign;
+	var gems = req.query.gems;
+	var conf = req.query.conf
+	if(userId == null || sign == null){
+		http.send(res,1,"invalid parameters");
+		return;
+	}
+
+	var md5 = crypto.md5(userId + conf + gems + config.ROOM_PRI_KEY);
+	if(md5 != req.query.sign){
+		console.log("invalid reuqest.");
+		http.send(res,1,"sign check failed.");
+		return;
+	}
+
+	//conf = JSON.parse(conf);
+	roomMgr.createRoom(userId,gems,serverIp,config.CLIENT_PORT,function(errcode,roomId){
+		if(errcode != 0 || roomId == null){
+			http.send(res,errcode,"create failed.");
+			return;	
+		}
+		else{
+			http.send(res,0,"ok",{roomid:roomId});			
+		}
+	});
+	console.log('create_room--uid:'+userId);
+	//http.send(res,0,"ok");
+});
+
+app.get('enter_room',function(req,res){
+	var userId = parseInt(req.query.userid);
+	var name = req.query.name;
+	var roomId = req.query.roomid;
+	var sign = req.query.sign;
+	if(userId == null || roomId == null || sign == null){
+		http.send(res,1,"invalid parameters");
+		return;
+	}
+
+	var md5 = crypto.md5(userId + name + roomId + config.ROOM_PRI_KEY);
+	console.log(req.query);
+	console.log(md5);
+	if(md5 != sign){
+		http.send(res,2,"sign check failed.");
+		return;
+	}
+
+	//安排玩家坐下
+	roomMgr.enterRoom(roomId,userId,name,function(ret){
+		if(ret != 0){
+			if(ret == 1){
+				http.send(res,4,"room is full.");
+			}
+			else if(ret == 2){
+				http.send(res,3,"can't find room.");
+			}	
+			return;		
+		}
+
+		var token = tokenMgr.createToken(userId,5000);
+		http.send(res,0,"ok",{token:token});
+	});
 });
 
 app.get('/get_server_info',function(req,res){
@@ -100,7 +164,7 @@ exports.start = function($config){
 		load:0,
 	};
 
-	setInterval(update,5000);
+	setInterval(update,10000);
 	app.listen(config.HTTP_PORT,config.HALL_IP);
 	
 	console.log("game server is listening on " + config.HALL_IP + ":" + config.HTTP_PORT);

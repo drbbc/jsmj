@@ -14,25 +14,43 @@ cc.Class({
             cvs.fitWidth = true;
         }
         if(!cc.vv){
-            cc.director.loadScene("Login");
+            cc.director.loadScene("Connect");
             return;
         }
-        cc.vv.utils.addClickEvent(this.createBtn,this.Node,"hall","onCreateRootBtnClick");
+        //cc.vv.utils.addClickEvent(this.createBtn,this.Node,"hall","onCreateRootBtnClick");
     },
 
     onCreateRootBtnClick:function(){
+
+        var self = this;
         if(cc.vv.gameNetMgr.roomId != null){
             cc.vv.alert.show("提示","房间已经创建!\n必须解散当前房间才能创建新的房间");
             return;
         }
-        console.log("onCreateRoomClicked");
-        var parm = {
-            uid:vv.userMgr.uid
+        var onCreate = function(ret){
+            if(ret.errcode !== 0){
+                cc.vv.wc.hide();
+                //console.log(ret.errmsg);
+                if(ret.errcode == 2222){
+                    cc.vv.alert.show("提示","房卡不足，创建房间失败!");  
+                }
+                else{
+                    cc.vv.alert.show("提示","创建房间失败,错误码:" + ret.errcode);
+                }
+            }
+            else{
+                cc.vv.gameNetMgr.connectGameServer(ret);
+            }
         };
 
-        xhr = cc.vv.http.sendRequest("/create_room",parm,function(ret){
-            console.log(ret);
-        });
+        var data = {
+            account:cc.vv.userMgr.account,
+            sign:cc.vv.userMgr.sign,
+            conf:'conf'
+        };
+        console.log(data);
+        // cc.vv.wc.show("正在创建房间");
+        cc.vv.http.sendRequest("/create_dz_room",data,onCreate);
     },
 
     onEntryRoomBtnClick:function(){

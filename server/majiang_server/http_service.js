@@ -157,7 +157,6 @@ function update(){
 				}
 			}
 			else{
-				//
 				lastTickTime = 0;
 			}
 		});
@@ -182,7 +181,7 @@ exports.start = function($config){
 		load:roomMgr.getTotalRooms(),
 	};
 
-	setInterval(update,5000);
+	setInterval(update,10000);
 	app.listen(config.HTTP_PORT,config.FOR_HALL_IP);
 	console.log("game server is listening on " + config.FOR_HALL_IP + ":" + config.HTTP_PORT);
 };

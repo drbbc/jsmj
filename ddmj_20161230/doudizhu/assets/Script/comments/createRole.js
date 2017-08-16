@@ -2,7 +2,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        
+        testName:cc.EditBox,
         // foo: {
         //    default: null,      // The default value will be used only when the component attaching
         //                           to a node for the first time
@@ -14,31 +14,28 @@ cc.Class({
         // },
         // ...
     },
-    
+
     // use this for initialization
     onLoad: function () {
-        // if(!cc.sys.isNative && cc.sys.isMobile){
-        //     var cvs = this.node.getComponent(cc.Canvas);
-        //     cvs.fitHeight = true;
-        //     cvs.fitWidth = true;
-        // }
+        if(!cc.sys.isNative && cc.sys.isMobile){
+            var cvs = this.node.getComponent(cc.Canvas);
+            cvs.fitHeight = true;
+            cvs.fitWidth = true;
+        }
+
         if(!cc.vv){
             cc.director.loadScene("Connect");
             return;
         }
-    },
-    //微信登录按钮事件
-    onWxButtonClicked:function(){
 
+
+        
+        // this._splash = cc.find("Canvas/splash");
+        // this._splash.active = true;
     },
-    //游戏登录
+    //
     onButtonClicked:function(){
-        cc.vv.userMgr.guestAuth();
+        console.log("clicked:" + this.testName.string);
+        cc.vv.userMgr.create(this.testName.string);
     },
-
-
-    // called every frame, uncomment this function to activate update callback
-    // update: function (dt) {
-
-    // },
 });

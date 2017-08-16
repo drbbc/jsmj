@@ -114,7 +114,7 @@ cc.Class({
     onLoadComplete:function(){
         this._isLoading = false;
         this._stateStr = "准备登陆";
-        cc.director.loadScene("createrole");
+        cc.director.loadScene("Login");
         cc.loader.onComplete = null;
     },
     
