@@ -128,7 +128,7 @@ exports.createRoom = function(userId,gems,ip,port,callBack){
 }
 
 //加入房间并坐下
-exports.enterRoom = function(roomId,userId,name,callBack){
+exports.enterRoom = function(roomId,userId,userName,callBack){
 	var fnTakeSeat = function(room){
 		if(exports.getUserRoom(userId) == roomId){
 			//已存在
@@ -156,21 +156,43 @@ exports.enterRoom = function(roomId,userId,name,callBack){
 	var room = rooms[roomId];
 	if(room){
 		var ret = fnTakeSeat(room);
-		callback(ret);
+		callBack(ret);
 	}
 	else{
 		db.get_room_data(roomId,function(dbdata){
 			if(dbdata == null){
 				//找不到房间
-				callback(2);
+				callBack(2);
 			}
 			else{
 				//construct room.
 				room = constructRoomFromDb(dbdata);
 				//
 				var ret = fnTakeSeat(room);
-				callback(ret);
+				callBack(ret);
 			}
 		});
 	}
 }
+
+
+exports.getUserRoom = function(userId){
+	var location = userLocation[userId];
+	if(location != null){
+		return location.roomId;
+	}
+	return null;
+};
+
+exports.getUserSeat = function(userId){
+	var location = userLocation[userId];
+	//console.log(userLocation[userId]);
+	if(location != null){
+		return location.seatIndex;
+	}
+	return null;
+};
+
+exports.getUserLocations = function(){
+	return userLocation;
+};

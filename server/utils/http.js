@@ -80,6 +80,7 @@ exports.get2 = function (url,data,callback,safe) {
 };
 
 exports.get = function (host,port,path,data,callback,safe) {
+	console.log("requestInfo:"+host+":"+port+":"+path);
 	var content = qs.stringify(data);  
 	var options = {  
 		hostname: host,  

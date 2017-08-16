@@ -32,10 +32,10 @@ cc.Class({
                 cc.vv.wc.hide();
                 //console.log(ret.errmsg);
                 if(ret.errcode == 2222){
-                    cc.vv.alert.show("提示","房卡不足，创建房间失败!");  
+                    //cc.vv.alert.show("提示","房卡不足，创建房间失败!");  
                 }
                 else{
-                    cc.vv.alert.show("提示","创建房间失败,错误码:" + ret.errcode);
+                    //cc.vv.alert.show("提示","创建房间失败,错误码:" + ret.errcode);
                 }
             }
             else{
