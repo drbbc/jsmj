@@ -71,10 +71,64 @@ var game = {
     chupaiIndex:0
 }
 
-flush(game);
+exports.setReady = function(userId,callback){
+    var roomId = roomMgr.getUserRoom(userId);
+    if(roomId == null){
+        return;
+    }
+    var roomInfo = roomMgr.getRoom(roomId);
+    if(roomInfo == null){
+        return;
+    }
 
-fapai(game);
+    roomMgr.setReady(userId,true);
+
+    var game = games[roomId];
+    if(game == null){
+        if(roomInfo.seats.length == 4){
+            for(var i = 0; i < roomInfo.seats.length; ++i){
+                var s = roomInfo.seats[i];
+                if(s.ready == false || userMgr.isOnline(s.userId)==false){
+                    return;
+                }
+            }
+            //4个人到齐了，并且都准备好了，则开始新的一局
+            exports.begin(roomId);
+        }
+    }
+    else{
+        var remainingGames = roomInfo.conf.maxGames - roomInfo.numOfGames;
+
+        var data = {
+            state:game.state,
+            button:game.button,
+            turn:game.turn,
+        };
+
+        data.seats = [];
+        var seatData = null;
+        for(var i = 0; i < 4; ++i){
+            var sd = game.gameSeats[i];
+
+            var s = {
+                userid:sd.userId,
+            }
+            if(sd.userId == userId){
+                seatData = sd;
+            }
+            data.seats.push(s);
+        }
+
+        //同步整个信息给客户端
+        userMgr.sendMsg(userId,'game_sync_push',data);
+        //sendOperations(game,seatData,game.chuPai);
+    }
+}
+
+// flush(game);
+
+// fapai(game);
 
 
 
-console.log(game);
+// console.log(game);

@@ -12,4 +12,4 @@ db.init(configs.mysql());
 http_service.start(config);
 
 //开启外网SOCKET服务
-// socket_service.start(config);
+socket_service.start(config);

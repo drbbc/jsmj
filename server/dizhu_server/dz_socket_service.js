@@ -103,7 +103,7 @@ exports.start = function(config,mgr){
 			
 			socket.gameMgr = roomInfo.gameMgr;
 
-			//玩家上线，强制设置为TRUE
+			// 玩家上线，强制设置为TRUE
 			socket.gameMgr.setReady(userId);
 
 			socket.emit('login_finished');
@@ -120,5 +120,7 @@ exports.start = function(config,mgr){
         });
 
         //
-    });
+	});
+	
+	console.log("socket server is listening on " + config.CLIENT_PORT);
 };

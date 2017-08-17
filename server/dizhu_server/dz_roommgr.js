@@ -173,6 +173,46 @@ exports.enterRoom = function(roomId,userId,userName,callBack){
 			}
 		});
 	}
+};
+
+exports.setReady = function(userId,value){
+	var roomId = exports.getUserRoom(userId);
+	if(roomId == null){
+		return;
+	}
+
+	var room = exports.getRoom(roomId);
+	if(room == null){
+		return;
+	}
+
+	var seatIndex = exports.getUserSeat(userId);
+	if(seatIndex == null){
+		return;
+	}
+
+	var s = room.seats[seatIndex];
+	s.ready = value;
+}
+
+exports.isReady = function(userId){
+	var roomId = exports.getUserRoom(userId);
+	if(roomId == null){
+		return;
+	}
+
+	var room = exports.getRoom(roomId);
+	if(room == null){
+		return;
+	}
+
+	var seatIndex = exports.getUserSeat(userId);
+	if(seatIndex == null){
+		return;
+	}
+
+	var s = room.seats[seatIndex];
+	return s.ready;	
 }
 
 
@@ -184,6 +224,76 @@ exports.getUserRoom = function(userId){
 	return null;
 };
 
+exports.getUserLocations = function(){
+	return userLocation;
+};
+
+exports.exitRoom = function(userId){
+	var location = userLocation[userId];
+	if(location == null)
+		return;
+
+	var roomId = location.roomId;
+	var seatIndex = location.seatIndex;
+	var room = rooms[roomId];
+	delete userLocation[userId];
+	if(room == null || seatIndex == null) {
+		return;
+	}
+
+	var seat = room.seats[seatIndex];
+	seat.userId = 0;
+	seat.name = "";
+
+	var numOfPlayers = 0;
+	for(var i = 0; i < room.seats.length; ++i){
+		if(room.seats[i].userId > 0){
+			numOfPlayers++;
+		}
+	}
+	
+	db.set_room_id_of_user(userId,null);
+
+	if(numOfPlayers == 0){
+		exports.destroy(roomId);
+	}
+};
+
+exports.destroy = function(roomId){
+	var roomInfo = rooms[roomId];
+	if(roomInfo == null){
+		return;
+	}
+
+	for(var i = 0; i < 4; ++i){
+		var userId = roomInfo.seats[i].userId;
+		if(userId > 0){
+			delete userLocation[userId];
+			db.set_room_id_of_user(userId,null);
+		}
+	}
+	
+	delete rooms[roomId];
+	totalRooms--;
+	db.delete_room(roomId);
+}
+
+exports.getTotalRooms = function(){
+	return totalRooms;
+}
+
+exports.getRoom = function(roomId){
+	return rooms[roomId];
+};
+
+exports.isCreator = function(roomId,userId){
+	var roomInfo = rooms[roomId];
+	if(roomInfo == null){
+		return false;
+	}
+	return roomInfo.conf.creator == userId;
+};
+
 exports.getUserSeat = function(userId){
 	var location = userLocation[userId];
 	//console.log(userLocation[userId]);
@@ -191,8 +301,4 @@ exports.getUserSeat = function(userId){
 		return location.seatIndex;
 	}
 	return null;
-};
-
-exports.getUserLocations = function(){
-	return userLocation;
 };
