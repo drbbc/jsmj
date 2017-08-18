@@ -2,6 +2,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        nickName:cc.Label,
         // foo: {
         //    default: null,      // The default value will be used only when the component attaching
         //                           to a node for the first time
@@ -25,6 +26,14 @@ cc.Class({
             cc.director.loadScene("Connect");
             return;
         }
+
+        if (cc.vv.userMgr.userId == null){
+            cc.director.loadScene("login");
+        }
+
+        this.nickName = cc.find("Canvas/nickName");
+        this.nickName.string = cc.vv.userMgr.userName;
+        console.log(this.nickName);
     },
 
     // called every frame, uncomment this function to activate update callback
