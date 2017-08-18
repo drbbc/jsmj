@@ -4,6 +4,8 @@ cc.Class({
     properties: {
         createBtn:cc.Node,
         entryBtn:cc.Node,
+        joinGame:cc.Node,
+        joinRoomId:cc.Node,
     },
 
     // use this for initialization
@@ -56,8 +58,17 @@ cc.Class({
     onEntryRoomBtnClick:function(){
         console.log("onEntryRoomBtnClick");
         if(cc.vv && cc.vv.userMgr.roomData == null){
+            this.joinGame.active = true;
             return;
         }
+    },
+
+    onJoinRoomBtnClick:function(){
+        if (this.joinRoomId.string == null){
+            return;
+        }
+
+        
     },
 
     // called every frame, uncomment this function to activate update callback

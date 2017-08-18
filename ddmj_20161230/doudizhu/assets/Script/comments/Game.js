@@ -31,9 +31,9 @@ cc.Class({
             cc.director.loadScene("login");
         }
 
-        this.nickName = cc.find("Canvas/nickName");
+        // this.nickName = cc.find("Canvas/nickName");
         this.nickName.string = cc.vv.userMgr.userName;
-        console.log(this.nickName);
+        cc.log(this.nickName);
     },
 
     // called every frame, uncomment this function to activate update callback
