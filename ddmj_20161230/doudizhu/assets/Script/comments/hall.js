@@ -63,13 +63,28 @@ cc.Class({
         }
     },
 
-    onJoinRoomBtnClick:function(){
-        if (this.joinRoomId.string == null){
-            return;
-        }
+    // onJoinRoomBtnClick:function(){
 
-        
-    },
+    //     this.joinRoomId = cc.find("Canvas/entryRoomUI/joinRoomId");
+    //     if (this.joinRoomId.string == null){
+    //         return;
+    //     }
+
+
+    //     cc.vv.userMgr.enterRoom(this.joinRoomId.string,function(ret){
+    //         if(ret.errcode == 0){
+    //             this.node.active = false;
+    //         }
+    //         else{
+    //             var content = "房间["+ roomId +"]不存在，请重新输入!";
+    //             if(ret.errcode == 4){
+    //                 content = "房间["+ roomId + "]已满!";
+    //             }
+    //             cc.vv.alert.show("提示",content);
+    //             // this.onResetClicked();
+    //         }
+    //     }.bind(this)); 
+    // },
 
     // called every frame, uncomment this function to activate update callback
     update: function (dt) {
