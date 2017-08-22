@@ -1,0 +1,7 @@
+POST http://cv. wyqcd.cn/Html/ThirdH5/TerminalDetails.html HTTP/1.1
+content-type: application/json
+
+{
+    "OperatorID":"123456789",
+    "OperatorSecret":"1234567890abcdef"
+}
