@@ -1,4 +1,4 @@
-POST http://cv. wyqcd.cn/Html/ThirdH5/TerminalDetails.html HTTP/1.1
+GET  http://cv.wyqcd.cn/Html/ThirdH5/TerminalDetails.html HTTP/1.1
 content-type: application/json
 
 {
