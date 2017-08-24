@@ -36,6 +36,13 @@ cc.Class({
         cc.log(this.nickName);
     },
 
+    initEventHandlers:function(){
+        cc.vv.gameNetMgr.dataEventHandler = this.node;
+        
+        //初始化事件监听器
+        var self = this;
+    }
+
     // called every frame, uncomment this function to activate update callback
     // update: function (dt) {
 

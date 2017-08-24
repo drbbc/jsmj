@@ -21,7 +21,7 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
-
+        this.onResetClicked();
     },
 
     onEnable:function(){
