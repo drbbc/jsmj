@@ -117,7 +117,11 @@ exports.start = function(config,mgr){
 				}
 				userMgr.sendMsg(userId,'dissolve_notice_push',data);	
             };
-        });
+		});
+		
+		socket.on('connect',function(){
+
+		});
 
 		//
 		
@@ -256,7 +260,7 @@ exports.start = function(config,mgr){
 
 		socket.on('test_socket',function(data){
 			console.log(data);
-			data.socket = true;
+			
 			socket.emit('test_socket_event',data);
 		})
 	});
