@@ -10,6 +10,7 @@ var Global = cc.Class({
         isPinging:false,
         fnDisconnect:null,
         handlers:{},
+        tst:{},
         addHandler:function(event,fn){
             if(this.handlers[event]){
                 console.log("event:" + event + "' handler has been registered.");
@@ -32,7 +33,7 @@ var Global = cc.Class({
         },
         connect:function(fnConnect,fnError) {
             var self = this;
-            
+            console.log('net.js --> connect->');
             var opts = {
                 'reconnection':false,
                 'force new connection': true,
@@ -80,14 +81,14 @@ var Global = cc.Class({
             });
             this.lastRecieveTime = Date.now();
             var self = this;
-            console.log(1);
+            //console.log(1);
             if(!self.isPinging){
-                console.log(1);
+                //console.log(1);
                 self.isPinging = true;
                 setInterval(function(){
-                    console.log(3);
+                    //console.log(3);
                     if(self.sio){
-                        console.log(4);
+                        //console.log(4);
                         if(Date.now() - self.lastRecieveTime > 10000){
                             self.close();
                         }

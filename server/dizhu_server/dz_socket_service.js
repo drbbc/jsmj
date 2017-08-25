@@ -119,7 +119,146 @@ exports.start = function(config,mgr){
             };
         });
 
-        //
+		//
+		
+		//聊天
+		socket.on('chat',function(data){
+			if(socket.userId == null){
+				return;
+			}
+			var chatContent = data;
+			userMgr.broacastInRoom('chat_push',{sender:socket.userId,content:chatContent},socket.userId,true);
+		});
+		
+		//快速聊天
+		socket.on('quick_chat',function(data){
+			if(socket.userId == null){
+				return;
+			}
+			var chatId = data;
+			userMgr.broacastInRoom('quick_chat_push',{sender:socket.userId,content:chatId},socket.userId,true);
+		});
+		
+		//语音聊天
+		socket.on('voice_msg',function(data){
+			if(socket.userId == null){
+				return;
+			}
+			console.log(data.length);
+			userMgr.broacastInRoom('voice_msg_push',{sender:socket.userId,content:data},socket.userId,true);
+		});
+		
+		//表情
+		socket.on('emoji',function(data){
+			if(socket.userId == null){
+				return;
+			}
+			var phizId = data;
+			userMgr.broacastInRoom('emoji_push',{sender:socket.userId,content:phizId},socket.userId,true);
+		});
+		
+		//语音使用SDK不出现在这里
+		
+		//退出房间
+		socket.on('exit',function(data){
+			var userId = socket.userId;
+			if(userId == null){
+				return;
+			}
+
+			var roomId = roomMgr.getUserRoom(userId);
+			if(roomId == null){
+				return;
+			}
+
+			//如果游戏已经开始，则不可以
+			if(socket.gameMgr.hasBegan(roomId)){
+				return;
+			}
+
+			//如果是房主，则只能走解散房间
+			if(roomMgr.isCreator(userId)){
+				return;
+			}
+			
+			//通知其它玩家，有人退出了房间
+			userMgr.broacastInRoom('exit_notify_push',userId,userId,false);
+			
+			roomMgr.exitRoom(userId);
+			userMgr.del(userId);
+			
+			socket.emit('exit_result');
+			socket.disconnect();
+		});
+		
+		//解散房间
+		socket.on('dispress',function(data){
+			var userId = socket.userId;
+			if(userId == null){
+				return;
+			}
+
+			var roomId = roomMgr.getUserRoom(userId);
+			if(roomId == null){
+				return;
+			}
+
+			//如果游戏已经开始，则不可以
+			if(socket.gameMgr.hasBegan(roomId)){
+				return;
+			}
+
+			//如果不是房主，则不能解散房间
+			if(roomMgr.isCreator(roomId,userId) == false){
+				return;
+			}
+			
+			userMgr.broacastInRoom('dispress_push',{},userId,true);
+			userMgr.kickAllInRoom(roomId);
+			roomMgr.destroy(roomId);
+			socket.disconnect();
+		});
+
+		//解散房间
+		socket.on('dissolve_request',function(data){
+			var userId = socket.userId;
+			console.log(1);
+			if(userId == null){
+				console.log(2);
+				return;
+			}
+
+			var roomId = roomMgr.getUserRoom(userId);
+			if(roomId == null){
+				console.log(3);
+				return;
+			}
+
+			//如果游戏未开始，则不可以
+			if(socket.gameMgr.hasBegan(roomId) == false){
+				console.log(4);
+				return;
+			}
+
+			var ret = socket.gameMgr.dissolveRequest(roomId,userId);
+			if(ret != null){
+				var dr = ret.dr;
+				var ramaingTime = (dr.endTime - Date.now()) / 1000;
+				var data = {
+					time:ramaingTime,
+					states:dr.states
+				}
+				//console.log(5);
+				userMgr.broacastInRoom('dissolve_notice_push',data,userId,true);
+			}
+			//console.log(6);
+		});
+
+		socket.on('test_socket',function(data){
+			console.log(data);
+			data.socket = true;
+			socket.emit('test_socket_event',data);
+		})
 	});
 	
 	console.log("socket server is listening on " + config.CLIENT_PORT);

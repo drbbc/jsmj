@@ -132,6 +132,10 @@ cc.Class({
                 console.log(data.errmsg);   
             }
         });
+
+        cc.vv.net.addHandler("test_socket_event",function(data){
+            console.log(data);
+        });
                 
         cc.vv.net.addHandler("login_finished",function(data){
             console.log("login_finished");
