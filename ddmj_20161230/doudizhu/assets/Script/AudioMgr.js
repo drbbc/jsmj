@@ -21,12 +21,12 @@ cc.Class({
     // use this for initialization
     init: function () {
         var t = cc.sys.localStorage.getItem("bgmVolume");
-        if(t != null){
+        if(t !== null){
             this.bgmVolume = parseFloat(t);    
         }
         
-        var t = cc.sys.localStorage.getItem("sfxVolume");
-        if(t != null){
+        t = cc.sys.localStorage.getItem("sfxVolume");
+        if(t !== null){
             this.sfxVolume = parseFloat(t);    
         }
         

@@ -1,6 +1,5 @@
-var Base = require('./Base');
 cc.Class({
-    extends: Base,
+    extends: cc.Component,
 
     properties: {
         tipLabel:cc.Label,
@@ -109,7 +108,7 @@ cc.Class({
                 name=arr[i].substring(0,num);
                 value=arr[i].substr(num+1);
                 params[name]=value;
-            } 
+            }
         }
         return params;
     },

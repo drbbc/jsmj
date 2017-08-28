@@ -24,10 +24,9 @@ String.prototype.format = function(args) {
         return this; 
     } 
 };
-var Base = require('./Base');
  
 cc.Class({
-    extends: Base,
+    extends: cc.Component,
 
     properties: {
         // foo: {
