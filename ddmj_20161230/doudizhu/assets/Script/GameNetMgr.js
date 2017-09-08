@@ -50,6 +50,7 @@ cc.Class({
     },
     
     dispatchEvent(event,data){
+        console.log("dispatchEvent:"+event+"\ndata:"+data);
         if(this.dataEventHandler){
             this.dataEventHandler.emit(event,data);
         }    
@@ -169,6 +170,7 @@ cc.Class({
         });
                 
         cc.vv.net.addHandler("disconnect",function(data){
+            console.log('addHandler:'+data);
             if(self.roomId == null){
                 cc.director.loadScene("hall");
             }

@@ -2,6 +2,7 @@ var db = require('../utils/db');
 
 var rooms = {};
 var creatingRooms = {};
+var games = {};
 
 var userLocation = {};
 var totalRooms = 0;

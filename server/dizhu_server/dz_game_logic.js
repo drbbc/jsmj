@@ -46,12 +46,13 @@ function fapai(game){
     var n = seats.length;
     for (var index = 0; index < game.paiInfoList.length; index++) {
         i = i%n;
+        var pk = game.paiInfoList[index];
+        if (pk === 3){
+            game.chupaiIndex = i;
+        }
         seats[i].push(game.paiInfoList[index]);
         i++;
     }
-
-    //game.seats = seats;
-    //return game;
 }
 
 function chupai(game,index){
@@ -60,15 +61,6 @@ function chupai(game,index){
     }
 
     
-}
-
-//Test
-var game = {
-    paiInfoList:[],
-    seats:[
-        [],
-    ],
-    chupaiIndex:0
 }
 
 exports.setReady = function(userId,callback){
@@ -102,7 +94,7 @@ exports.setReady = function(userId,callback){
         var data = {
             state:game.state,
             button:game.button,
-            turn:game.turn,
+            turn:game.chupaiIndex,
         };
 
         data.seats = [];
@@ -123,6 +115,26 @@ exports.setReady = function(userId,callback){
         userMgr.sendMsg(userId,'game_sync_push',data);
         //sendOperations(game,seatData,game.chuPai);
     }
+}
+
+//游戏开始
+exports.begin = function(roomId){
+    var room = userMgr.getRoom(roomId);
+    if (room === null){
+        return;
+    }
+    var game = {
+        chupaiIndex:0,
+        pushed:[],
+        seats:[]
+    };
+
+    flush(game);
+
+    fapai(game);
+    
+    
+
 }
 
 // flush(game);

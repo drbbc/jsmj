@@ -9,6 +9,7 @@ exports.start = function(config,mgr){
 	io = require('socket.io')(config.CLIENT_PORT);
 	
 	io.sockets.on('connection',function(socket){
+		
 		socket.on('login',function(data){
 			data = JSON.parse(data);
 			if(socket.userId != null){
