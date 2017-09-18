@@ -261,9 +261,18 @@ exports.start = function(config,mgr){
 
 		socket.on('test_socket',function(data){
 			console.log(data);
-			
+			data.begin = 2;
 			socket.emit('test_socket_event',data);
-		})
+		});
+
+		socket.on('game_ping',function(data){
+			var userId = socket.userId;
+			if(!userId){
+				return;
+			}
+			//console.log('game_ping');
+			socket.emit('game_pong');
+		});
 	});
 	
 	console.log("socket server is listening on " + config.CLIENT_PORT);

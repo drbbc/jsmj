@@ -101,6 +101,7 @@ var Global = cc.Class({
             }   
         },
         send:function(event,data){
+            console.log("send:"+event);
             if(this.sio.connected){
                 if(data != null && (typeof(data) == "object")){
                     data = JSON.stringify(data);

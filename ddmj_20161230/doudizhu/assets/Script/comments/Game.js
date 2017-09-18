@@ -3,6 +3,8 @@ cc.Class({
 
     properties: {
         nickName:cc.Label,
+        _seats:{},
+
         // foo: {
         //    default: null,      // The default value will be used only when the component attaching
         //                           to a node for the first time
@@ -31,9 +33,7 @@ cc.Class({
             cc.director.loadScene("login");
         }
 
-        // this.nickName = cc.find("Canvas/nickName");
-        this.nickName.string = cc.vv.userMgr.userName;
-        cc.log(this.nickName);
+        this.initEventHandlers();
     },
 
     initEventHandlers:function(){
@@ -49,11 +49,16 @@ cc.Class({
         this.node.on('user_state_changed',function(data){
             self.initSingleSeat(data.detail);
         });
+
+        this.node.on('testAction',function(data){
+            console.log("test---end"+data);
+        });
     },
+
     initSingleSeat:function(seat){
         var index = cc.vv.gameNetMgr.getLocalIndex(seat.seatindex);
         var isOffline = !seat.online;
-        // var isZhuang = seat.seatindex == cc.vv.gameNetMgr.button;//
+        // var isZhuang = seat.seatindex == cc.vv.gameNetMgr.button;
         
         console.log("isOffline:" + isOffline);
         
@@ -63,21 +68,20 @@ cc.Class({
         this._seats[index].setID(seat.userid);
         this._seats[index].voiceMsg(false);
         
-        this._seats2[index].setInfo(seat.name,seat.score);
+        // this._seats2[index].setInfo(seat.name,seat.score);
         // this._seats2[index].setZhuang(isZhuang);
-        this._seats2[index].setOffline(isOffline);
-        this._seats2[index].setID(seat.userid);
-        this._seats2[index].voiceMsg(false);
-        // this._seats2[index].refreshXuanPaiState();
+        // this._seats2[index].setOffline(isOffline);
+        // this._seats2[index].setID(seat.userid);
+        // this._seats2[index].voiceMsg(false);
     },
 
     onTestBtnClick:function(){
         var d = {
-            'begin':1,
+            begin:1,
         }
         console.log("begin---qian");
         cc.vv.net.send("test_socket",d);
-    }
+    },
 
     // called every frame, uncomment this function to activate update callback
     // update: function (dt) {

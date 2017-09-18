@@ -47,7 +47,7 @@ function fapai(game){
     for (var index = 0; index < game.paiInfoList.length; index++) {
         i = i%n;
         var pk = game.paiInfoList[index];
-        if (pk === 3){
+        if (pk === n-1){
             game.chupaiIndex = i;
         }
         seats[i].push(game.paiInfoList[index]);
@@ -60,7 +60,9 @@ function chupai(game,index){
         return;
     }
 
-    
+
+
+    game.chupaiIndex = (game.chupaiIndex + 1) % game.seats.length;
 }
 
 exports.setReady = function(userId,callback){
@@ -77,7 +79,7 @@ exports.setReady = function(userId,callback){
 
     var game = games[roomId];
     if(game == null){
-        if(roomInfo.seats.length == 4){
+        if(roomInfo.seats.length == 4 || roomInfo.seats.length == 3){
             for(var i = 0; i < roomInfo.seats.length; ++i){
                 var s = roomInfo.seats[i];
                 if(s.ready == false || userMgr.isOnline(s.userId)==false){
@@ -101,7 +103,6 @@ exports.setReady = function(userId,callback){
         var seatData = null;
         for(var i = 0; i < 4; ++i){
             var sd = game.gameSeats[i];
-
             var s = {
                 userid:sd.userId,
             }
@@ -130,11 +131,7 @@ exports.begin = function(roomId){
     };
 
     flush(game);
-
     fapai(game);
-    
-    
-
 }
 
 // flush(game);

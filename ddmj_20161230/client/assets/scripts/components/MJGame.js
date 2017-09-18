@@ -34,7 +34,7 @@ cc.Class({
             cc.director.loadScene("loading");
             return;
         }
-        this.addComponent("NoticeTip");
+        //this.addComponent("NoticeTip");
         this.addComponent("GameOver");
         this.addComponent("DingQue");
         this.addComponent("PengGangs");

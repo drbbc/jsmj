@@ -133,10 +133,6 @@ cc.Class({
                 console.log(data.errmsg);   
             }
         });
-
-        cc.vv.net.addHandler("test_socket_event",function(data){
-            console.log(data);
-        });
                 
         cc.vv.net.addHandler("login_finished",function(data){
             console.log("login_finished");
@@ -254,6 +250,10 @@ cc.Class({
             console.log('game_playing_push'); 
             self.gamestate = "playing"; 
             self.dispatchEvent('game_playing');
+        });
+
+        cc.vv.net.addHandler("test_socket_event",function(data){
+            self.dispatchEvent('testAction',data);
         });
         
         cc.vv.net.addHandler("game_sync_push",function(data){

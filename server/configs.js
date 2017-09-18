@@ -51,7 +51,7 @@ exports.game_server = function () {
 		SERVER_ID: "001",
 
 		//暴露给大厅服的HTTP端口号
-		HTTP_PORT: 9003,
+		HTTP_PORT: 9004,
 		//HTTP TICK的间隔时间，用于向大厅服汇报情况
 		HTTP_TICK_TIME: 5000,
 		//大厅服IP
