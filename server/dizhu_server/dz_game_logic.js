@@ -41,7 +41,7 @@ function fapai(game){
     if (!seats || seats.length ==0){
         return;
     }
-
+    var holds = [];
     var i = 0;
     var n = seats.length;
     for (var index = 0; index < game.paiInfoList.length; index++) {
@@ -50,18 +50,16 @@ function fapai(game){
         if (pk === n-1){
             game.chupaiIndex = i;
         }
-        seats[i].push(game.paiInfoList[index]);
+        holds[i].push(game.paiInfoList[index]);
         i++;
     }
+    game.holds = holds;
 }
 
 function chupai(game,index){
     if (game.chupaiIndex !== index){
         return;
     }
-
-
-
     game.chupaiIndex = (game.chupaiIndex + 1) % game.seats.length;
 }
 
@@ -132,6 +130,19 @@ exports.begin = function(roomId){
 
     flush(game);
     fapai(game);
+
+    for(var i = 0; i < seats.length; ++i){
+        //开局时，通知前端必要的数据
+        var s = seats[i];
+        //通知玩家手牌
+        userMgr.sendMsg(s.userId,'game_holds_push',game.gameSeats[i].holds);
+        //通知还剩多少张牌
+        userMgr.sendMsg(s.userId,'mj_count_push',numOfMJ);
+        //通知还剩多少局
+        userMgr.sendMsg(s.userId,'game_num_push',roomInfo.numOfGames);
+        //通知游戏开始
+        userMgr.sendMsg(s.userId,'game_begin_push',game.button);
+    }
 }
 
 // flush(game);

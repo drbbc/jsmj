@@ -78,6 +78,9 @@ cc.Class({
         // {userid: 3, score: 0, name: "bbb", online: true, ready: false,score:0,seatindex:1,userid:3}
         if (!seat.online)return;
         this.setSeatString(seat.seatindex,seat.name);
+
+
+
     },
 
     setSeatString:function(index,name){
@@ -101,4 +104,11 @@ cc.Class({
     // update: function (dt) {
 
     // },
+
+    onDestroy:function(){
+        console.log("onDestroy");
+        if(cc.vv){
+            cc.vv.gameNetMgr.clear();   
+        }
+    }
 });
