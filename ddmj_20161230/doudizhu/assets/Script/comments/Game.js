@@ -3,7 +3,7 @@ cc.Class({
 
     properties: {
         nickName:cc.Label,
-        _seats:{},
+        _seats:[],
 
         // foo: {
         //    default: null,      // The default value will be used only when the component attaching
@@ -33,7 +33,21 @@ cc.Class({
             cc.director.loadScene("login");
         }
 
+        let seats = cc.vv.gameNetMgr.seats;
+
+        seats.forEach(function(element) {
+            this.initSingleSeat(element);
+        }, this);
+        
+
         this.initEventHandlers();
+
+        this.initViews();
+    },
+
+    initViews(){
+
+
     },
 
     initEventHandlers:function(){
@@ -47,7 +61,12 @@ cc.Class({
         });
         
         this.node.on('user_state_changed',function(data){
+           
             self.initSingleSeat(data.detail);
+        });
+
+        this.node.on("game_sync_push",function(data){
+            console.log("event:game_sync_push");
         });
 
         this.node.on('testAction',function(data){
@@ -56,31 +75,26 @@ cc.Class({
     },
 
     initSingleSeat:function(seat){
-        var index = cc.vv.gameNetMgr.getLocalIndex(seat.seatindex);
-        var isOffline = !seat.online;
-        // var isZhuang = seat.seatindex == cc.vv.gameNetMgr.button;
-        
-        console.log("isOffline:" + isOffline);
-        
-        this._seats[index].setInfo(seat.name,seat.score);
-        this._seats[index].setReady(seat.ready);
-        this._seats[index].setOffline(isOffline);
-        this._seats[index].setID(seat.userid);
-        this._seats[index].voiceMsg(false);
-        
-        // this._seats2[index].setInfo(seat.name,seat.score);
-        // this._seats2[index].setZhuang(isZhuang);
-        // this._seats2[index].setOffline(isOffline);
-        // this._seats2[index].setID(seat.userid);
-        // this._seats2[index].voiceMsg(false);
+        // {userid: 3, score: 0, name: "bbb", online: true, ready: false,score:0,seatindex:1,userid:3}
+        if (!seat.online)return;
+        this.setSeatString(seat.seatindex,seat.name);
     },
+
+    setSeatString:function(index,name){
+        var index = cc.vv.gameNetMgr.getLocalIndex(index);
+        var seats = this.node.getChildByName("seats");
+        var _seat = seats.getChildByName("seat"+index);
+        _seat.getComponent(cc.Label).string = name;
+    },
+
+
 
     onTestBtnClick:function(){
         var d = {
             begin:1,
         }
         console.log("begin---qian");
-        cc.vv.net.send("test_socket",d);
+        cc.vv.net.send("ready",d);
     },
 
     // called every frame, uncomment this function to activate update callback

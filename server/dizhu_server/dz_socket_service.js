@@ -273,6 +273,15 @@ exports.start = function(config,mgr){
 			//console.log('game_ping');
 			socket.emit('game_pong');
 		});
+
+		socket.on('ready',function(data){
+			var userId = socket.userId;
+			if(userId == null){
+				return;
+			}
+			socket.gameMgr.setReady(userId);
+			userMgr.broacastInRoom('user_ready_push',{userid:userId,ready:true},userId,true);
+		});
 	});
 	
 	console.log("socket server is listening on " + config.CLIENT_PORT);

@@ -120,7 +120,7 @@ exports.setReady = function(userId,callback){
 
 //游戏开始
 exports.begin = function(roomId){
-    var room = userMgr.getRoom(roomId);
+    var room = roomMgr.getRoom(roomId);
     if (room === null){
         return;
     }
