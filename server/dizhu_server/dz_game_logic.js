@@ -37,7 +37,7 @@ function fapai(game){
         return;
     }
 
-    var seats = game.seats;
+    var seats = game.gameSeats;
     if (!seats || seats.length ==0){
         return;
     }
@@ -50,6 +50,11 @@ function fapai(game){
         if (pk === n-1){
             game.chupaiIndex = i;
         }
+
+        if (Object.prototype.toString.call(holds[i])!=='[object Array]'){
+            holds[i]=[];
+        }
+
         holds[i].push(game.paiInfoList[index]);
         i++;
     }
@@ -125,13 +130,15 @@ exports.begin = function(roomId){
     var game = {
         chupaiIndex:0,
         pushed:[],
-        seats:[]
+        gameSeats:room.seats
     };
 
     flush(game);
     fapai(game);
 
-    for(var i = 0; i < seats.length; ++i){
+    var seats = room.seats;
+
+    for(var i = 0; i < game.gameSeats.length; ++i){
         //开局时，通知前端必要的数据
         var s = seats[i];
         //通知玩家手牌

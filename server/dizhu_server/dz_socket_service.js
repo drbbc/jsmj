@@ -119,10 +119,6 @@ exports.start = function(config,mgr){
 				userMgr.sendMsg(userId,'dissolve_notice_push',data);	
             };
 		});
-		
-		socket.on('connect',function(){
-
-		});
 
 		//
 		
